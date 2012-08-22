@@ -21,7 +21,7 @@ function graph_requests_report ( &$rrdtool_graph ) {
     }
 
     $rrdtool_graph['lower-limit']    = '0';
-    $rrdtool_graph['vertical-label'] = 'requests/msec';
+    $rrdtool_graph['vertical-label'] = 'requests/sec';
     $rrdtool_graph['extras']         = '--rigid';
  
     if($context != "host" )
