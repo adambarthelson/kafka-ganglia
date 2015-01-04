@@ -85,53 +85,95 @@ Ganglia will output: "Kafka.AvgProduceRequestMs.rrd" into /var/lib/ganglia/rrds/
 
 
     {
-      "servers" : [ {
-        "port" : "9999",        #Kafka JMX Port
-        "host" : "127.0.0.1",   #Kafka server
-        "queries" : [ {
-          "outputWriters" : [ {
-            "@class" :
-      "com.googlecode.jmxtrans.model.output.GangliaWriter",
-            "settings" : {
-          "groupName" : "jvmheapmemory",
-          "port" : 8649,         #port to send UDP, confirm on Ganglia host's gmond.conf
-          "host" : "127.0.0.1"   #Ganglia host
-          }
-      } ],
-        "obj" : "java.lang:type=Memory",
-        "resultAlias": "heap",
-        "attr" : [ "HeapMemoryUsage", "NonHeapMemoryUsage" ]
-      }, {
-        "outputWriters" : [ {
-          "@class" :
-      "com.googlecode.jmxtrans.model.output.GangliaWriter",
-            "settings" : {
-          "groupName" : "kafka stats",
-          "port" : 8649,
-          "host" : "127.0.0.1"
-          }
-      } ],
-        "obj" : "kafka:type=kafka.SocketServerStats",
-        "resultAlias": "Kafka",
-        "attr" : [ "ProduceRequestsPerSecond", "FetchRequestsPerSecond", "BytesReadPerSecond", "BytesWrittenPerSecond"  ]
-      }, {
-        "outputWriters" : [ {
-          "@class" :
-        "com.googlecode.jmxtrans.model.output.GangliaWriter",
-          "settings" : {
-          "groupName" : "jvmGC",
-          "port" : 8649,
-          "host" : "127.0.0.1",
-          "typeNames" : [ "name" ]
-          }
-       } ],
-        "obj" : "java.lang:type=GarbageCollector,name=*",
-        "resultAlias": "GC",
-        "attr" : [ "CollectionCount", "CollectionTime" ]
-       } ],
-         "numQueryThreads" : 2
-      } ]
-    }
+    "servers": [
+        {
+            "port": "19091",
+            "host": "168.7.1.67",
+            "queries": [
+                {
+                    "outputWriters": [
+                        {
+                            "@class": "com.googlecode.jmxtrans.model.output.GangliaWriter",
+                            "settings": {
+                                "groupName": "jvmheapmemory",
+                                "port": 8649,
+                                "host": "168.7.2.166"
+                            }
+                        }
+                    ],
+                    "obj": "java.lang:type=Memory",
+                    "resultAlias": "heap",
+                    "attr": [
+                        "HeapMemoryUsage",
+                        "NonHeapMemoryUsage"
+                    ]
+                },
+        {
+                    "outputWriters": [
+                        {
+                            "@class": "com.googlecode.jmxtrans.model.output.GangliaWriter",
+                            "settings": {
+                                "groupName": "kafka topic stats",
+                                "port": 8649,
+                                "host": "168.7.2.166",
+                "typeNames":[
+                    "name"
+                ]
+                            }
+                        }
+                    ],
+                    "obj": "\"kafka.server\":type=\"BrokerTopicMetrics\",name=*",
+                    "resultAlias": "Kafka",
+                    "attr": [
+                        "Count",
+                        "OneMinuteRate"
+                    ]
+                },
+                {
+                    "outputWriters": [
+                        {
+                            "@class": "com.googlecode.jmxtrans.model.output.GangliaWriter",
+                            "settings": {
+                                "groupName": "kafka server request",
+                                "port": 8649,
+                                "host": "168.7.2.166"
+                            }
+                        }
+                    ],
+                    "obj": "\"kafka.network\":type=\"RequestMetrics\",name=\"Produce-RequestsPerSec\"",
+                    "resultAlias": "produce",
+                    "attr": [
+                        "Count",
+                        "OneMinuteRate"
+                    ]
+                },
+                {
+                    "outputWriters": [
+                        {
+                            "@class": "com.googlecode.jmxtrans.model.output.GangliaWriter",
+                            "settings": {
+                                "groupName": "jvmGC",
+                                "port": 8649,
+                                "host": "168.7.2.166",
+                                "typeNames": [
+                                    "name"
+                                ]
+                            }
+                        }
+                    ],
+                    "obj": "java.lang:type=GarbageCollector,name=*",
+                    "resultAlias": "GC",
+                    "attr": [
+                        "CollectionCount",
+                        "CollectionTime"
+                    ]
+                }
+            ],
+            "numQueryThreads": 2
+        }
+    ]
+    } 
+
 
 
 
