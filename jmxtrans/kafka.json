@@ -36,7 +36,7 @@
                             }
                         }
                     ],
-                    "obj": "\"kafka.server\":type=\"BrokerTopicMetrics\",name=*",
+                    "obj": "kafka.server:type=BrokerTopicMetrics,name=*",
                     "resultAlias": "Kafka",
                     "attr": [
                         "Count",
@@ -54,11 +54,10 @@
                             }
                         }
                     ],
-                    "obj": "\"kafka.network\":type=\"RequestMetrics\",name=\"Produce-RequestsPerSec\"",
-                    "resultAlias": "produce",
+                    "obj":"kafka.server:type=OffsetManager,name=NumGroups",
+                    "resultAlias": "OffsetManager NumGroups",
                     "attr": [
-                        "Count",
-                        "OneMinuteRate"
+                        "Value"
                     ]
                 },
                 {
